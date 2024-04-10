@@ -43,17 +43,17 @@ const BackendAPIExample = () => {
             setFilteredUsers(users);
         } else {
             const filtered = users.filter(user =>
-                user.email.toLowerCase().includes(query.toLowerCase()) ||
-                user.EmpID.toString().toLowerCase().includes(query.toLowerCase()) ||
-                user.firstName.toLowerCase().includes(query.toLowerCase()) ||
-                user.lastName.toLowerCase().includes(query.toLowerCase())
+                user.mail.toLowerCase().includes(query.toLowerCase()) ||
+                user.sAMAccountName.toString().toLowerCase().includes(query.toLowerCase()) ||
+                user.givenName.toLowerCase().includes(query.toLowerCase()) ||
+                user.sn.toLowerCase().includes(query.toLowerCase())
             );
             setFilteredUsers(filtered);
         }
     };
 
     const handleCheckboxChange = (user) => {
-        const selectedIndex = selectedUsers.findIndex(selectedUser => selectedUser.email === user.email);
+        const selectedIndex = selectedUsers.findIndex(selectedUser => selectedUser.mail === user.mail);
         if (selectedIndex === -1) {
             setSelectedUsers([...selectedUsers, user]);
         } else {
@@ -69,7 +69,7 @@ const BackendAPIExample = () => {
         // setSelectedUsers([]);
         // Check if the selected users are already present in the movedUsers list
         const newMovedUsers = selectedUsers.filter(user =>
-            !movedUsers.some(movedUser => movedUser.email === user.email)
+            !movedUsers.some(movedUser => movedUser.mail === user.mail)
         );
         // Add only those users who are not already present
         setMovedUsers([...movedUsers, ...newMovedUsers]);
@@ -77,7 +77,7 @@ const BackendAPIExample = () => {
     };
 
     const handleRemoveUser = (userToRemove) => {
-        const updatedMovedUsers = movedUsers.filter(user => user.email !== userToRemove.email);
+        const updatedMovedUsers = movedUsers.filter(user => user.mail !== userToRemove.mail);
         setMovedUsers(updatedMovedUsers);
     };
 
@@ -108,7 +108,7 @@ const BackendAPIExample = () => {
                         <thead>
                             <tr>
                                 <th style={{ padding: '10px', border: '1px solid #ccc' }}>Email</th>
-                                <th style={{ padding: '10px', border: '1px solid #ccc' }}>Emp ID</th>
+                                <th style={{ padding: '10px', border: '1px solid #ccc' }}>Login ID</th>
                                 <th style={{ padding: '10px', border: '1px solid #ccc' }}>First Name</th>
                                 <th style={{ padding: '10px', border: '1px solid #ccc' }}>Last Name</th>
                                 <th style={{ padding: '10px', border: '1px solid #ccc' }}>Action</th>
@@ -117,14 +117,14 @@ const BackendAPIExample = () => {
                         <tbody>
                             {filteredUsers.map(user => (
                                 <tr key={user.email}>
-                                    <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.email}</td>
-                                    <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.EmpID}</td>
-                                    <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.firstName}</td>
-                                    <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.lastName}</td>
+                                    <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.mail}</td>
+                                    <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.sAMAccountName}</td>
+                                    <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.givenName}</td>
+                                    <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.sn}</td>
                                     <td style={{ padding: '10px', border: '1px solid #ccc' }}>
                                         <input
                                             type="checkbox"
-                                            checked={selectedUsers.some(selectedUser => selectedUser.email === user.email)}
+                                            checked={selectedUsers.some(selectedUser => selectedUser.mail === user.mail)}
                                             onChange={() => handleCheckboxChange(user)}
                                             style={{ marginRight: '10px' }}
                                         />
@@ -144,17 +144,17 @@ const BackendAPIExample = () => {
                         <thead>
                             <tr>
                                 <th style={{ padding: '10px', border: '1px solid #ccc' }}>Email</th>
-                                <th style={{ padding: '10px', border: '1px solid #ccc' }}>Emp ID</th>
+                                <th style={{ padding: '10px', border: '1px solid #ccc' }}>Login ID</th>
                                 {/* <th style={{ padding: '10px', border: '1px solid #ccc' }}>Last Name</th> */}
                                 <th style={{ padding: '10px', border: '1px solid #ccc' }}>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {movedUsers.map(user => (
-                                <tr key={user.email}>
-                                    <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.email}</td>
-                                    <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.EmpID}</td>
-                                    {/* <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.lastName}</td> */}
+                                <tr key={user.mail}>
+                                    <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.mail}</td>
+                                    <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.sAMAccountName}</td>
+                                    {/* <td style={{ padding: '10px', border: '1px solid #ccc' }}>{user.sn}</td> */}
                                     <td style={{ padding: '10px', border: '1px solid #ccc' }}>
                                         <button style={{ cursor: 'pointer', backgroundColor: '#dc3545', color: '#fff', border: 'none', padding: '3px 8px', borderRadius: '5px' }} onClick={() => handleRemoveUser(user)}>Remove</button>
                                     </td>
